@@ -1,1 +1,114 @@
 @import "tailwindcss";
+
+:root {
+    /* HelioSync - cores principais */
+    --helio-green: #32cd32;
+    --helio-green-dark: #228b22;
+    --helio-green-light: #90ee90;
+    --helio-green-forest: #2e8b57;
+
+    --helio-gold: #ffd700;
+    --helio-amber: #f4a460;
+
+    /* HelioSync - backgrounds escuros */
+    --helio-bg-primary: #0a1a0a;
+    --helio-bg-secondary: #060e06;
+    --helio-bg-tertiary: #050d05;
+    --helio-bg-accent: #0d2818;
+
+    /* HelioSync - gradientes */
+    --helio-gradient-gold: linear-gradient(135deg, #ffd700, #f4a460);
+    --helio-gradient-green: linear-gradient(135deg, #32cd32, #228b22);
+    --helio-gradient-green-light: linear-gradient(135deg, #32cd32, #90ee90);
+
+    /* HelioSync - estados */
+    --helio-focus: #f4a460;
+    --helio-hover: #32cd32;
+
+    /* HelioSync - glows radiais */
+    --helio-glow-green: radial-gradient(circle, rgb(50 205 50 / 0.35) 0%, transparent 70%);
+    --helio-glow-gold: radial-gradient(circle, rgb(255 215 0 / 0.3) 0%, transparent 70%);
+    --helio-glow-amber: radial-gradient(circle, rgb(244 164 96 / 0.28) 0%, transparent 70%);
+
+    /* Tokens base da aplicação */
+    --background: var(--helio-bg-primary);
+    --foreground: #f3ffe9;
+}
+
+@theme inline {
+    /* Colors */
+    --color-helio-green: var(--helio-green);
+    --color-helio-green-dark: var(--helio-green-dark);
+    --color-helio-green-light: var(--helio-green-light);
+    --color-helio-green-forest: var(--helio-green-forest);
+
+    --color-helio-gold: var(--helio-gold);
+    --color-helio-amber: var(--helio-amber);
+
+    --color-helio-bg-primary: var(--helio-bg-primary);
+    --color-helio-bg-secondary: var(--helio-bg-secondary);
+    --color-helio-bg-tertiary: var(--helio-bg-tertiary);
+    --color-helio-bg-accent: var(--helio-bg-accent);
+
+    --color-helio-focus: var(--helio-focus);
+    --color-helio-hover: var(--helio-hover);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    /* Background images */
+    --background-image-helio-gradient-gold: var(--helio-gradient-gold);
+    --background-image-helio-gradient-green: var(--helio-gradient-green);
+    --background-image-helio-gradient-green-light: var(--helio-gradient-green-light);
+
+    --background-image-helio-glow-green: var(--helio-glow-green);
+    --background-image-helio-glow-gold: var(--helio-glow-gold);
+    --background-image-helio-glow-amber: var(--helio-glow-amber);
+}
+
+@layer base {
+    body {
+        background: var(--background);
+        color: var(--foreground);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--helio-focus);
+        outline-offset: 2px;
+    }
+}
+
+@layer utilities {
+    .bg-helio-hero {
+        background:
+            radial-gradient(circle at 15% 20%, rgb(50 205 50 / 0.22), transparent 45%),
+            radial-gradient(circle at 85% 10%, rgb(255 215 0 / 0.18), transparent 38%),
+            linear-gradient(180deg, var(--helio-bg-accent), var(--helio-bg-primary));
+    }
+
+    .bg-helio-section {
+        background: linear-gradient(180deg, var(--helio-bg-secondary), var(--helio-bg-primary));
+    }
+
+    .bg-helio-card {
+        background:
+            linear-gradient(180deg, rgb(13 40 24 / 0.78), rgb(6 14 6 / 0.88)), var(--helio-gradient-green-light);
+        border: 1px solid rgb(50 205 50 / 0.22);
+    }
+
+    .glow-helio-green {
+        background-image: var(--helio-glow-green);
+    }
+
+    .glow-helio-gold {
+        background-image: var(--helio-glow-gold);
+    }
+
+    .glow-helio-amber {
+        background-image: var(--helio-glow-amber);
+    }
+
+    .hover-helio-green:hover {
+        color: var(--helio-hover);
+    }
+}
