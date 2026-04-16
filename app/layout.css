@@ -41,6 +41,7 @@ body {
 	/* textos */
 	--text-primary: var(--foreground);
 	--text-secondary: color-mix(in srgb, var(--text-primary) 70%, transparent);
+	--text-muted: color-mix(in srgb, var(--text-primary) 50%, transparent);
 }
 
 @theme inline {
@@ -64,9 +65,10 @@ body {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 
-	/* Aliases para usar text-primary e text-secondary */
+	/* Aliases para usar variações de texto */
 	--color-primary: var(--text-primary);
 	--color-secondary: var(--text-secondary);
+	--color-muted: var(--text-muted);
 
 	/* Background images */
 	--background-image-helio-gradient-gold: var(--helio-gradient-gold);
@@ -119,6 +121,77 @@ body {
 
 	.hover-helio-green:hover {
 		color: var(--helio-hover);
+	}
+
+	.hero-enter {
+		animation: helio-fade-up 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.hero-glow-enter {
+		animation: helio-fade-in 1100ms ease-out;
+	}
+
+	.enter-delay-1 {
+		animation-delay: 120ms;
+	}
+
+	.enter-delay-2 {
+		animation-delay: 220ms;
+	}
+
+	.enter-delay-3 {
+		animation-delay: 320ms;
+	}
+
+	.enter-delay-4 {
+		animation-delay: 420ms;
+	}
+
+	.reveal-up {
+		opacity: 0;
+		transform: translateY(32px);
+		transition:
+			opacity 700ms ease,
+			transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: var(--reveal-delay, 0ms);
+	}
+
+	.reveal-up.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes helio-fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(26px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes helio-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-enter,
+	.hero-glow-enter,
+	.reveal-up {
+		animation: none !important;
+		transition: none !important;
+		opacity: 1 !important;
+		transform: none !important;
 	}
 }
 
