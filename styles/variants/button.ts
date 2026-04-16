@@ -6,7 +6,7 @@ export const buttonVariants = tv({
 		variant: {
 			// Botão verde sólido, principal call-to-action ("Explorar")
 			explore:
-				'h-12 min-w-36 px-7 text-base bg-helio-green text-helio-bg-tertiary shadow-[0_8px_20px_-12px_rgb(50_205_50_/_0.95)] hover:bg-helio-green-light',
+				'h-12 min-w-36 px-7 text-base bg-helio-green text-helio-bg-tertiary shadow-[0_8px_20px_-12px_rgb(50_205_50_/_0.95)] hover:scale-[1.02] hover:shadow-[0_10px_25px_-15px_rgb(50_205_50_/_0.95)]',
 
 			// Botão contornado, fundo translúcido, usado para ações secundárias ("Criar Conta")
 			createAccount:
