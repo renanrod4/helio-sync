@@ -113,3 +113,25 @@ body{
 		color: var(--helio-hover);
 	}
 }
+
+.text-gradient-gold {
+	background: var(--helio-gradient-gold);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+.text-gradient-green {
+	background: var(--helio-gradient-green);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+.text-gradient-green-light {
+	background: var(--helio-gradient-green-light);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}

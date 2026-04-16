@@ -15,7 +15,7 @@ export function HeroImagePanel() {
 				<div className="size-16 rounded-full bg-helio-gradient-gold" />
 				<div className="ml-8 flex flex-col justify-center">
 					<p className="text-lg text-foreground">Eficiência aumentada em</p>
-					<h3 className="bg-helio-gradient-green-light bg-clip-text text-3xl font-medium text-transparent">
+					<h3 className="text-gradient-green-light text-3xl font-medium">
 						+50% vs painéis fixos
 					</h3>
 				</div>

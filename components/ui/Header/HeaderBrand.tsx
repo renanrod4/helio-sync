@@ -11,7 +11,7 @@ export function HeaderBrand() {
 				className="mr-2 rounded-2xl"
 			/>
 			<p className="text-2xl">
-				Helio<span className="bg-helio-gradient-gold bg-clip-text text-transparent">Sync</span>
+				Helio<span className="text-gradient-gold">Sync</span>
 			</p>
 		</div>
 	);
