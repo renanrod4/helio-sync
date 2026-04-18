@@ -1,10 +1,6 @@
 import { Button } from '../Button';
 import { HeaderNavMenu } from './HeaderNavMenu';
-
-type NavItem = {
-	label: string;
-	href: string;
-};
+import type { NavItem } from './Header.types';
 
 type HeaderActionsProps = {
 	items: readonly NavItem[];
