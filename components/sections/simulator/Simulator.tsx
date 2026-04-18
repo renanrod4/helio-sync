@@ -60,7 +60,7 @@ export default function Simulator() {
 	return (
 		<section
 			ref={sectionRef}
-			className="relative bg-helio-bg-secondary py-16 flex items-center justify-center flex-col"
+			className="relative bg-helio-bg-secondary px-4 md:px-8 py-16 flex items-center justify-center flex-col"
 		>
 			<h1 className={`mb-6 text-title reveal-up ${isVisible ? 'is-visible' : ''}`}>
 				Simulador <span className="text-gradient-green">Interativo</span>
@@ -71,7 +71,7 @@ export default function Simulator() {
 			>
 				Veja como o painel lotus acompanha o sol ao longo do dia.
 			</p>
-			<div className="grid w-2/3 grid-cols-1 gap-8 md:grid-cols-2">
+			<div className="grid max-w-80 md:max-w-full md:w-2/3 grid-cols-1 gap-8 md:grid-cols-2">
 				{/* soon avaliable canvas */}
 				<div className="relative w-full overflow-hidden rounded-2xl border border-[rgb(255_255_255/0.16)] bg-[linear-gradient(145deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))] p-6 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.75)] backdrop-blur-xl">
 					<div className="relative z-10 flex h-full min-h-52 items-center justify-center rounded-xl border border-[rgb(255_255_255/0.08)] bg-[rgb(7_18_10/0.35)]">

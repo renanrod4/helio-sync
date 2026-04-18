@@ -79,7 +79,7 @@ export default function Features() {
 			>
 				Apresentamos uma forma viável e eficaz de gerar energia diretamente da sua residência.
 			</p>
-			<div className="flex items-center justify-center gap-6">
+			<div className="flex flex-wrap items-center justify-center gap-6">
 				{features.map((feature, index) => (
 					<FeatureCard
 						key={index}
