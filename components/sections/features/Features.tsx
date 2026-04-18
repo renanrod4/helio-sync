@@ -5,6 +5,7 @@ import { IconType } from 'react-icons';
 import { BiShield } from 'react-icons/bi';
 import { LuLeaf } from 'react-icons/lu';
 import { FiRefreshCcw, FiZap } from 'react-icons/fi';
+import { IconBadge } from '@/components/ui/IconBadge';
 
 const features = [
 	{
@@ -69,7 +70,7 @@ export default function Features() {
 					background: 'radial-gradient(ellipse at center top, var(--helio-bg-accent) 0%, transparent 60%)',
 				}}
 			/>
-			<h1 className={`mb-12 text-title reveal-up ${isVisible ? 'is-visible' : ''}`}>
+			<h1 className={`mb-6 text-title reveal-up ${isVisible ? 'is-visible' : ''}`}>
 				Por que escolher Helio<span className="text-gradient-gold">Sync</span>?
 			</h1>
 			<p
@@ -119,15 +120,7 @@ function FeatureCard({
 			}`}
 			style={cardRevealStyle}
 		>
-			<div
-				className="size-14 rounded-xl border flex items-center justify-center"
-				style={{
-					borderColor: `color-mix(in srgb, var(${color}) 40%, transparent)`,
-					backgroundColor: `color-mix(in srgb, var(${color}) 15%, transparent)`,
-				}}
-			>
-				<Icon className="size-6" style={{ color: `var(${color})` }} />
-			</div>
+			<IconBadge icon={Icon} colorVar={color} className="h-14 w-14" />
 			<h3 className="text-subtitle">{title}</h3>
 			<p className="text-muted">{description}</p>
 		</div>

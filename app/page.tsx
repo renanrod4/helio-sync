@@ -2,6 +2,7 @@ import { HeroSection } from '@/components/sections/hero/HeroSection';
 import Header from '../components/ui/Header/Header';
 import Features from '@/components/sections/features/Features';
 import MathModel from '@/components/sections/math-model/MathModel';
+import Simulator from '@/components/sections/simulator/Simulator';
 
 export default function Home() {
 	return (
@@ -10,6 +11,7 @@ export default function Home() {
 			<HeroSection />
 			<Features/>
 			<MathModel />
+			<Simulator/>
 		</main>
 	);
 }
