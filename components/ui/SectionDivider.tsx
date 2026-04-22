@@ -19,9 +19,7 @@ export function SectionDivider() {
 			aria-hidden="true"
 			className="relative h-20 w-full overflow-hidden bg-[linear-gradient(180deg,var(--helio-bg-primary),var(--helio-bg-secondary))]"
 		>
-			<div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_84px,rgba(50,205,50,0.04)_85px,transparent_86px)]" />
 			<div className="absolute inset-x-0 top-[58%] h-px bg-linear-to-r from-transparent via-[#f6d75d]/90 to-transparent" />
-			<div className="absolute inset-x-0 top-[58%] h-1.5 -translate-y-1/2 bg-[radial-gradient(circle,rgba(255,215,0,0.25)_0%,rgba(255,215,0,0.12)_25%,transparent_65%)]" />
 
 			{sparkles.map((sparkle, index) => (
 				<span
