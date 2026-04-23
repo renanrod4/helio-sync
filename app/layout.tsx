@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 		{ name: 'Pedro Henrique Resende Gomes', url: 'https://github.com/percels' },
 		{ name: 'Nícolas de Camargo Pedroso', url: '' },
 		{ name: 'Miguel Henrique dos Santos de Oliveira Moreira', url: 'https://github.com/Miguel0971' },
-		{ name: 'Samuel de Arruda Martins', url: '' },
+		{ name: 'Samuel de Arruda Martins', url: 'https://www.linkedin.com/in/samuel-de-arruda-653671228/' },
 		{ name: 'Vitória Sandei', url: '' },
 	],
 	creator: seo.siteName,
