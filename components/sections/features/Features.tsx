@@ -68,7 +68,7 @@ export default function Features() {
 				className="pointer-events-none absolute left-1/2 top-0 w-220 aspect-10/3 -translate-x-1/2 opacity-90"
 				style={{
 					background:
-						'radial-gradient(ellipse at center, rgb(13 40 24 / 0.72) 0%, rgb(13 40 24 / 0.34) 34%, rgb(13 40 24 / 0.1) 54%, transparent 78%)',
+						'radial-gradient(ellipse at center, rgb(13 40 24 / 0.72) 0%, rgb(13 40 24 / 0.34) 34%, transparent 54%)',
 				}}
 			/>
 
