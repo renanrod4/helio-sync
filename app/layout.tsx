@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './layout.css';
+import { Analytics } from '@vercel/analytics/next';
 
 const seo = {
 	siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
@@ -68,6 +69,7 @@ export default function RootLayout({
 		<html lang="pt-BR">
 			<body>
 				{children}
+        <Analytics />
 				<script type="application/ld+json">
 					{JSON.stringify({
 						'@context': 'https://schema.org',
