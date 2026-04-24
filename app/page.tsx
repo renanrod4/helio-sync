@@ -5,6 +5,7 @@ import MathModel from '@/components/sections/math-model/MathModel';
 import Simulator from '@/components/sections/simulator/Simulator';
 import { SectionDivider } from '@/components/ui/SectionDivider';
 import Statistics from '@/components/sections/statistics/Statistics';
+import HowItWorks from '@/components/sections/how-it-works/HowItWorks';
 
 export default function Home() {
 	return (
@@ -16,6 +17,7 @@ export default function Home() {
 			<MathModel />
 			<Simulator />
 			<Statistics />
+			<HowItWorks />
 		</main>
 	);
 }

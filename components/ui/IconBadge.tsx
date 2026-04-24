@@ -35,11 +35,11 @@ export function IconBadge({
 
 	return (
 		<div
-			className={`inline-flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 ${className}`.trim()}
+			className={`inline-flex aspect-square min-w-10 items-center justify-center rounded-xl border px-3 ${className}`.trim()}
 			style={style}
 		>
 			{Icon ? <Icon className={`size-6 ${iconClassName}`.trim()} /> : null}
-			{label ? <span className={`text-2xl leading-none ${contentClassName}`.trim()}>{label}</span> : null}
+			{label ? <span className={`${label.length===1?"text-2xl":"text-1xl"} leading-none ${contentClassName}`.trim()}>{label}</span> : null}
 		</div>
 	);
 }
