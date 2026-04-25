@@ -17,7 +17,7 @@ export const buttonVariants = tv({
 
 			// Botão dourado largo, usado para envio de mensagem ou ações de destaque em formulários
 			sendMessage:
-				'h-16 w-full px-8 text-[30px] bg-helio-gradient-gold text-helio-bg-tertiary shadow-[0_12px_30px_-14px_rgb(244_164_96_/_0.9)] hover:brightness-105',
+				'w-full py-4 px-8 text-lg bg-helio-gradient-gold text-helio-bg-tertiary hover:brightness-110 hover:scale-[1.01]',
 		},
 		iconPosition: {
 			left: 'flex-row',
