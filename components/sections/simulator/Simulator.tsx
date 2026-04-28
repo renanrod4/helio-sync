@@ -5,6 +5,7 @@ import { FaCrosshairs } from 'react-icons/fa';
 import { LuGauge } from 'react-icons/lu';
 import { PiFlowerLotusDuotone } from 'react-icons/pi';
 import { IconBadge } from '@/components/ui/IconBadge';
+import SimulatorContainer from './SimulatorCanvas';
 
 const cards = [
 	{
@@ -70,11 +71,8 @@ export default function Simulator() {
 					Veja como o painel lotus acompanha o sol ao longo do dia.
 				</p>
 				<div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr]">
-					{/* soon avaliable canvas */}
 					<div className="relative w-full overflow-hidden rounded-2xl border border-[rgb(255_255_255/0.16)] bg-[linear-gradient(145deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))] p-6 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.75)] backdrop-blur-xl">
-						<div className="relative z-10 flex h-full min-h-52 items-center justify-center rounded-xl border border-[rgb(255_255_255/0.08)] bg-[rgb(7_18_10/0.35)] md:min-h-72">
-							<p className="text-center text-lead text-secondary">Simulador em desenvolvimento...</p>
-						</div>
+						<SimulatorContainer />
 					</div>
 
 					<div className="flex flex-col items-start gap-6">
