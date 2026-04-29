@@ -8,6 +8,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
 		icon?: IconType;
 		iconClassName?: string;
 		isLoading?: boolean;
+		onClick?: () => void;
 	};
 
 export function Button({
@@ -19,7 +20,8 @@ export function Button({
 	disabled,
 	variant,
 	iconPosition,
-	...props
+	onClick,
+	...props 
 }: ButtonProps) {
 	const isDisabled = disabled || isLoading;
 
@@ -31,6 +33,7 @@ export function Button({
 				class: className,
 			})}
 			disabled={isDisabled}
+			onClick={isDisabled ? undefined : onClick}
 			{...props}
 		>
 			{Icon ? <Icon className={iconClassName} aria-hidden="true" /> : null}

@@ -7,6 +7,8 @@ import { SectionDivider } from '@/components/ui/SectionDivider';
 import Statistics from '@/components/sections/statistics/Statistics';
 import HowItWorks from '@/components/sections/how-it-works/HowItWorks';
 import Contact from '../components/sections/contact/Contact';
+import Footer from '@/components/sections/footer/Footer';
+
 
 export default function Home() {
 	return (
@@ -20,6 +22,7 @@ export default function Home() {
 			<Statistics />
 			<HowItWorks />
 			<Contact />
+			<Footer />
 		</main>
 	);
 }
