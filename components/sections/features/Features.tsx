@@ -1,38 +1,8 @@
 'use client';
 
 import { CSSProperties, useEffect, useRef, useState } from 'react';
-import { IconType } from 'react-icons';
-import { BiShield } from 'react-icons/bi';
-import { LuLeaf } from 'react-icons/lu';
-import { FiRefreshCcw, FiZap } from 'react-icons/fi';
-import { IconBadge } from '@/components/ui/IconBadge';
-
-const features = [
-	{
-		icon: FiRefreshCcw,
-		title: 'Sincronização Natural',
-		desc: 'Seus dados fluem como a energia solar, sincronizando automaticamente entre todos os seus dispositivos com segurança máxima.',
-		color: '--helio-green',
-	},
-	{
-		icon: LuLeaf,
-		title: 'Design Solar',
-		desc: 'Design inspirado na natureza que evolui e se adapta às suas necessidades, como uma planta que cresce com o sol.',
-		color: '--helio-green-forest',
-	},
-	{
-		icon: BiShield,
-		title: 'Viabilidade',
-		desc: 'Geração de energia com mais de 50% em média dos painéis solares comuns, com rastreamento solar em tempo real.',
-		color: '--helio-gold',
-	},
-	{
-		icon: FiZap,
-		title: 'Performance Solar',
-		desc: 'Velocidade incomparável com otimizações que aproveitam toda a energia disponível ao longo do dia.',
-		color: '--helio-amber',
-	},
-];
+import { FeatureCard } from './FeatureCard';
+import { features } from './Features.constants';
 
 export default function Features() {
 	const sectionRef = useRef<HTMLElement | null>(null);
@@ -86,7 +56,7 @@ export default function Features() {
 					{features.map((feature, index) => (
 						<FeatureCard
 							key={index}
-							Icon={feature.icon}
+							icon={feature.icon}
 							title={feature.title}
 							description={feature.desc}
 							color={feature.color}
@@ -97,36 +67,5 @@ export default function Features() {
 				</div>
 			</div>
 		</section>
-	);
-}
-
-function FeatureCard({
-	color,
-	Icon,
-	title,
-	description,
-	isVisible,
-	delay,
-}: {
-	color: string;
-	Icon: IconType;
-	title: string;
-	description: string;
-	isVisible: boolean;
-	delay: number;
-}) {
-	const cardRevealStyle = { '--reveal-delay': `${delay}ms` } as CSSProperties;
-
-	return (
-		<div
-			className={`flex min-h-70 w-full max-w-80 flex-col gap-4 rounded-2xl border border-foreground/10 bg-white/2 p-6 backdrop-blur-sm transition-colors duration-200 hover:bg-white/5 sm:max-w-88 reveal-up ${
-				isVisible ? 'is-visible' : ''
-			}`}
-			style={cardRevealStyle}
-		>
-			<IconBadge icon={Icon} colorVar={color} className="h-14 w-14" />
-			<h3 className="text-subtitle">{title}</h3>
-			<p className="text-muted">{description}</p>
-		</div>
 	);
 }
