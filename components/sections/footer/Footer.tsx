@@ -5,16 +5,18 @@ import { FaInstagram } from 'react-icons/fa';
 
 export default function Footer() {
 	return (
-		<footer className="bg-black/60 py-16 flex justify-between items-center px-20">
-			<div className="flex items-center">
+		<footer className="flex flex-col items-center gap-6 bg-black/60 px-5 py-10 text-center sm:flex-row sm:justify-between sm:px-8 sm:py-12 sm:text-left lg:px-20">
+			<div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
 				<Image
 					src="/images/logo.png"
 					alt="Logo do HelioSync"
 					width={80}
 					height={80}
-					className="mr-3 w-15 h-15 rounded-xl"
+					className="h-12 w-12 rounded-xl sm:h-15 sm:w-15"
 				/>
-				<p>HelioSync &copy; {new Date().getFullYear()} - Todos os direitos reservados.</p>
+				<p className="text-sm text-secondary sm:text-base">
+					HelioSync &copy; {new Date().getFullYear()} - Todos os direitos reservados.
+				</p>
 			</div>
 			<div>
 				<Button
