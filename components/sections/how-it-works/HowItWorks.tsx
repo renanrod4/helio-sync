@@ -19,31 +19,30 @@ export default function HowItWorks() {
 	return (
 		<section
             id="sobre"
-            className="flex scroll-mt-28 items-center justify-center gap-20 px-4 py-16 text-center"
+            className="flex scroll-mt-28 flex-col items-center justify-center gap-10 px-4 py-12 text-center sm:px-6 md:gap-14 md:px-10 lg:flex-row lg:gap-20 lg:px-12 lg:py-16"
 			style={{
 				background: 'linear-gradient(180deg, var(--helio-bg-secondary) , var(--helio-bg-primary) 300px)',
 			}}
 		>
-			<div className="relative flex-1 max-w-150 mb-8 aspect-3/2">
+            <div className="relative w-full max-w-150 aspect-3/2 sm:aspect-5/3 lg:flex-1">
 				<Image
 					src="/images/lotus-flower.png"
 					alt="Lotus Flower"
 					fill
-					className="object-cover object-[center_40%] rounded-3xl shadow-2xl"
+                    className="rounded-3xl object-cover object-[center_40%] shadow-2xl"
 				/>
 				<div
-					className="absolute bottom-0 right-0 translate-1/5 
-                flex flex-col items-center justify-center gap-1
-                aspect-square p-4 bg-helio-green/10 backdrop-blur-md 
-                rounded-3xl border border-helio-green/20 shadow-lg"
+                    className="absolute bottom-4 right-4 flex aspect-square flex-col items-center justify-center gap-1 rounded-2xl border border-helio-green/20 bg-helio-green/10 p-3 shadow-lg backdrop-blur-md sm:bottom-6 sm:right-6 sm:p-4"
 				>
-					<h3 className="text-4xl font-bold text-gradient-green-light leading-6">∞</h3>
-					<p className="text-sm font-medium text-muted">Energia Limpa</p>
+                    <h3 className="text-3xl font-bold leading-6 text-gradient-green-light sm:text-4xl">∞</h3>
+                    <p className="text-xs font-medium text-muted sm:text-sm">Energia Limpa</p>
 				</div>
 			</div>
-			<div className="flex-1 max-w-150 text-left">
-                <h2 className="text-title mb-4 text-left!">Como <span className='text-gradient-green-light'>funciona</span>?</h2>
-                <p className="text-lead text-muted ">
+            <div className="w-full max-w-150 text-left lg:flex-1">
+                <h2 className="mb-4 text-title text-left">
+                    Como <span className="text-gradient-green-light">funciona</span>?
+                </h2>
+                <p className="text-lead text-muted">
                     Inspirada na flor de lótus, nossa placa solar rastreia o sol usando um modelo matemático preciso.
                 </p>
                 <div className="mt-8 flex flex-col gap-6">
@@ -59,7 +58,6 @@ export default function HowItWorks() {
                         </div>
                     ))}
                 </div>
-                
             </div>
 		</section>
 	);

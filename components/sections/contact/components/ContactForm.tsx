@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { SubmitEvent, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { ContactFormInput } from './ContactFormInput';
@@ -24,7 +24,7 @@ export function ContactForm() {
 	const [isSending, setIsSending] = useState(false);
 	const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event:  SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 		setIsSending(true);
 		setFeedback(null);
