@@ -26,9 +26,9 @@ export function TelemetryStats({ peakVoltage, peakTime, averageVoltage, generati
 	return (
 		<div className="flex flex-wrap items-start justify-around gap-4">
 			<TelemetryStat label="Pico" value={peakVoltage} subtitle={`as ${peakTime}`} />
-			<TelemetryStat label="Media" value={averageVoltage} subtitle="dia inteiro" />
+			<TelemetryStat label="Média" value={averageVoltage} subtitle="dia inteiro" />
 			<TelemetryStat
-				label="Geracao"
+				label="Geração"
 				value={generation}
 				subtitle="estimado"
 				valueClassName="text-helio-green-light"

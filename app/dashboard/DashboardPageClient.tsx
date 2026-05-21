@@ -25,7 +25,7 @@ export default function DashboardPageClient() {
 		return (
 			<div className="absolute flex h-full w-full items-center justify-center p-4 text-center">
 				<p className="text-lg text-muted">
-					Esta pagina nao esta disponivel em dispositivos moveis. Por favor, acesse a partir de um computador
+					Esta página não está disponível em dispositivos móveis. Por favor, acesse a partir de um computador
 					ou tablet para visualizar o dashboard.
 				</p>
 			</div>

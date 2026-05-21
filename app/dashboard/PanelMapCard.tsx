@@ -97,7 +97,7 @@ export function PanelMapCard() {
 									<Tooltip direction="top" offset={[0, -6]} opacity={1}>
 										<div className="text-xs">
 											<strong>{panel.label}</strong>
-											<div>Status: {panel.status}</div>
+											<div>Status: {panel.status === 'maintenance' ? 'Manutenção' : panel.status === 'online' ? 'Online' : 'Offline'}</div>
 										</div>
 									</Tooltip>
 								</CircleMarker>
@@ -112,7 +112,7 @@ export function PanelMapCard() {
 						</span>
 						<span className="inline-flex items-center gap-2">
 							<span className="h-2 w-2 rounded-full bg-helio-gold" aria-hidden="true" />
-							Manut.
+							Manutenção
 						</span>
 						<span className="inline-flex items-center gap-2">
 							<span className="h-2 w-2 rounded-full bg-helio-rose" aria-hidden="true" />

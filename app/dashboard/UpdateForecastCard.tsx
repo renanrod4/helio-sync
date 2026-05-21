@@ -16,7 +16,7 @@ export function UpdateForecastCard() {
 				<span className="text-3xl font-semibold text-helio-gold">{nextLabel}</span>
 			</div>
 			<div className="flex items-center justify-between text-xs text-muted">
-				<span>Ultima response: {lastLabel}</span>
+					<span>Última resposta: {lastLabel}</span>
 				<span>Ciclo: {UPDATE_INTERVAL_MIN} min</span>
 			</div>
 		</div>

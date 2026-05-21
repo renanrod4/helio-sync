@@ -191,7 +191,7 @@ export function TelemetryChartCard({
 	const formatLabel = range === 'day' ? formatHourLabel : formatWeekLabel;
 	const xAxisLabels = buildXAxisLabels(series, range);
 	const peakLabel = peakPoint ? formatLabel(peakPoint.timestamp) : '--:--';
-	const rangeLabel = range === 'day' ? 'nas ultimas 24h' : 'na semana';
+	const rangeLabel = range === 'day' ? 'nas últimas 24h' : 'na semana';
 
 	const chartContainerClassName = chartHeightClassName ?? 'flex-1';
 
@@ -243,7 +243,7 @@ export function TelemetryChartCard({
 						className="h-full w-full"
 						preserveAspectRatio="none"
 						role="img"
-						aria-label="Grafico de volts gerados por tempo"
+						aria-label="Gráfico de volts gerados por tempo"
 					>
 						<defs>
 							<linearGradient id="telemetry-area" x1="0" x2="0" y1="0" y2="1">
@@ -285,7 +285,7 @@ export function TelemetryChartCard({
 								fontSize="10"
 								textAnchor="middle"
 							>
-								{label.label+(range === 'day' ? ':00' : '')}
+								{label.label + (range === 'day' ? ':00' : '')}
 							</text>
 						))}
 						<path d={areaPath} fill="url(#telemetry-area)" />
@@ -298,15 +298,15 @@ export function TelemetryChartCard({
 				<div className="flex flex-col gap-1">
 					<span className="text-xs uppercase tracking-[0.22em] text-muted">Pico</span>
 					<span className="text-lg font-semibold text-primary">{peakVoltage.toFixed(1)} V</span>
-					<span className="text-xs">{range==='day'?"as":"no"} {peakLabel}</span>
+					<span className="text-xs">{range === 'day' ? 'às' : 'no'} {peakLabel}</span>
 				</div>
 				<div className="flex flex-col gap-1">
-					<span className="text-xs uppercase tracking-[0.22em] text-muted">Media</span>
+					<span className="text-xs uppercase tracking-[0.22em] text-muted">Média</span>
 					<span className="text-lg font-semibold text-primary">{averageVoltage.toFixed(1)} V</span>
 					<span className="text-xs">dia inteiro</span>
 				</div>
 				<div className="flex flex-col gap-1">
-					<span className="text-xs uppercase tracking-[0.22em] text-muted">Geracao</span>
+					<span className="text-xs uppercase tracking-[0.22em] text-muted">Geração</span>
 					<span className="text-lg font-semibold text-helio-green-light">8.4 kWh</span>
 					<span className="text-xs">energia estimada acumulada no dia</span>
 				</div>
