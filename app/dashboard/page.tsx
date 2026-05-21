@@ -1,13 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { DashboardHeader, type DashboardTab } from './DashboardHeader';
 import { DashboardGrid } from './DashboardGrid';
 import Panels from './panelsData';
 
 export default function DashboardPage() {
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const tabParam = searchParams.get('tab');
+	const resolvedTab: DashboardTab = tabParam === 'fleet' ? 'fleet' : 'overview';
 	const [isMobile, setIsMobile] = useState(false);
-	const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
+	const [activeTab, setActiveTab] = useState<DashboardTab>(resolvedTab);
+
+	useEffect(() => {
+		if (activeTab !== resolvedTab) {
+			setActiveTab(resolvedTab);
+		}
+	}, [activeTab, resolvedTab]);
 
 	useEffect(() => {
 		const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -27,10 +38,27 @@ export default function DashboardPage() {
 		);
 	}
 
+	const handleTabChange = (tab: DashboardTab) => {
+		setActiveTab(tab);
+		const nextTabParam = tab === 'overview' ? null : 'fleet';
+		const currentTabParam = searchParams.get('tab');
+		if (nextTabParam === currentTabParam) {
+			return;
+		}
+		const params = new URLSearchParams(searchParams);
+		if (nextTabParam) {
+			params.set('tab', nextTabParam);
+		} else {
+			params.delete('tab');
+		}
+		const query = params.toString();
+		router.push(`/dashboard${query ? `?${query}` : ''}`);
+	};
+
 	return (
 		<main className="min-h-screen px-3 py-2 sm:px-3 sm:py-3 2xl:px-6 ">
 			<div className="mx-auto flex w-full flex-col gap-2 2xl:max-w-8/10 2xl:gap-6">
-				<DashboardHeader activeTab={activeTab} onTabChange={setActiveTab} />
+				<DashboardHeader activeTab={activeTab} onTabChange={handleTabChange} />
 				{activeTab === 'overview' ? <DashboardGrid /> : <Panels />}
 			</div>
 		</main>
