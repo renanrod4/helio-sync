@@ -3,30 +3,37 @@
 import { useEffect, useState } from 'react';
 import { FaRegBell } from 'react-icons/fa';
 
+import { TelemetryChartCard } from '@/lib/TelemetryChartCard';
+import type { MockTelemetry } from '@/lib/mockData';
+
 type PanelDashboardClientProps = {
 	panelLabel: string;
 	panelStatus: 'online' | 'offline' | 'maintenance';
 	efficiency: number;
-	averageVoltage: number;
 	energyKwh: number;
 	lastSyncLabel: string;
+	panelTelemetry: MockTelemetry[];
 	latestVoltage: number;
 	latestPowerW: number;
 	currentA: number;
-	temperatureC: number;
+	azimuthDeg: number;
+	elevationDeg: number;
+	co2AvoidedKg: number;
 };
 
 export default function PanelDashboardClient({
 	panelLabel,
 	panelStatus,
 	efficiency,
-	averageVoltage,
 	energyKwh,
 	lastSyncLabel,
+	panelTelemetry,
 	latestVoltage,
 	latestPowerW,
 	currentA,
-	temperatureC,
+	azimuthDeg,
+	elevationDeg,
+	co2AvoidedKg,
 }: PanelDashboardClientProps) {
 	const [isMobile, setIsMobile] = useState(false);
 	const monthlyEnergyKwh = energyKwh ? energyKwh * 22 : 0;
@@ -79,7 +86,7 @@ export default function PanelDashboardClient({
 					</div>
 				</header>
 
-				<section className="grid grid-cols-1  gap-2 auto-rows-[118px] lg:grid-cols-5 2xl:gap-4 2xl:auto-rows-[90%]">
+				<section className="grid grid-cols-1 gap-2 auto-rows-[110px] lg:grid-cols-5 2xl:gap-4 2xl:auto-rows-[70%]">
 					<div className="flex h-full flex-col  rounded-2xl border border-foreground/10 bg-[linear-gradient(180deg,rgba(6,14,6,0.92),rgba(6,14,6,0.6))] p-4 col-span-1 row-span-2">
 						<div className="flex items-start justify-between gap-3">
 							<div
@@ -101,11 +108,22 @@ export default function PanelDashboardClient({
 								<span className="text-[10px] uppercase tracking-[0.2em] text-muted">Corrente</span>
 								<span className="text-xl font-semibold text-primary">{currentA.toFixed(1)} A</span>
 							</div>
-							<div className="flex flex-col gap-1 rounded-xl border border-foreground/10 bg-white/4 p-3">
-								<span className="text-[10px] uppercase tracking-[0.2em] text-muted">Temp</span>
-								<span className="text-xl font-semibold text-helio-gold">
-									{temperatureC.toFixed(0)}ºC
+							<div className="flex flex-col gap-1 rounded-xl border border-sky-400/20 bg-white/4 p-3">
+								<span className="text-[10px] uppercase tracking-[0.2em] text-muted">CO2 evitado</span>
+								<span className="text-xl font-semibold text-sky-300">
+									{co2AvoidedKg ? `${co2AvoidedKg.toFixed(2)} kg` : '--'}
 								</span>
+							</div>
+						</div>
+
+						<div className="grid grid-cols-2 gap-3 pt-3">
+							<div className="flex flex-col gap-1 rounded-xl border border-foreground/10 bg-white/4 p-3">
+								<span className="text-[10px] uppercase tracking-[0.2em] text-muted">Azimute</span>
+								<span className="text-xl font-semibold text-primary">{azimuthDeg.toFixed(1)}°</span>
+							</div>
+							<div className="flex flex-col gap-1 rounded-xl border border-foreground/10 bg-white/4 p-3">
+								<span className="text-[10px] uppercase tracking-[0.2em] text-muted">Elevação</span>
+								<span className="text-xl font-semibold text-primary">{elevationDeg.toFixed(1)}°</span>
 							</div>
 						</div>
 
@@ -145,7 +163,13 @@ export default function PanelDashboardClient({
 							</div>
 						</div>
 					</div>
-					<div className="rounded-2xl border border-foreground/10 bg-white/5 lg:col-span-3 lg:row-span-2" />
+					<div className="lg:col-span-3 lg:row-span-2">
+						<TelemetryChartCard
+							telemetry={panelTelemetry}
+							subjectLabel={`Placa ${panelLabel}`}
+							chartHeightClassName="h-90"
+						/>
+					</div>
 					<div className="rounded-2xl border border-foreground/10 bg-white/5 lg:col-span-1 lg:row-span-2" />
 				</section>
 			</div>

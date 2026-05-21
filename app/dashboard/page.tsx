@@ -12,13 +12,6 @@ export default function DashboardPage() {
 	const tabParam = searchParams.get('tab');
 	const resolvedTab: DashboardTab = tabParam === 'fleet' ? 'fleet' : 'overview';
 	const [isMobile, setIsMobile] = useState(false);
-	const [activeTab, setActiveTab] = useState<DashboardTab>(resolvedTab);
-
-	useEffect(() => {
-		if (activeTab !== resolvedTab) {
-			setActiveTab(resolvedTab);
-		}
-	}, [activeTab, resolvedTab]);
 
 	useEffect(() => {
 		const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -39,7 +32,6 @@ export default function DashboardPage() {
 	}
 
 	const handleTabChange = (tab: DashboardTab) => {
-		setActiveTab(tab);
 		const nextTabParam = tab === 'overview' ? null : 'fleet';
 		const currentTabParam = searchParams.get('tab');
 		if (nextTabParam === currentTabParam) {
@@ -58,8 +50,8 @@ export default function DashboardPage() {
 	return (
 		<main className="min-h-screen px-3 py-2 sm:px-3 sm:py-3 2xl:px-6 ">
 			<div className="mx-auto flex w-full flex-col gap-2 2xl:max-w-8/10 2xl:gap-6">
-				<DashboardHeader activeTab={activeTab} onTabChange={handleTabChange} />
-				{activeTab === 'overview' ? <DashboardGrid /> : <Panels />}
+				<DashboardHeader activeTab={resolvedTab} onTabChange={handleTabChange} />
+				{resolvedTab === 'overview' ? <DashboardGrid /> : <Panels />}
 			</div>
 		</main>
 	);

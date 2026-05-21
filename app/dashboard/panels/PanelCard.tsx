@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { mockTelemetry, type MockPanel } from '@/lib/mockData';
-import { computeDailyEnergyKwh, formatTimeLabel, getPanelTelemetry } from '@/lib/panelMetrics';
+import { computeDailyEnergyKwh, computeDailyPeakVoltage, formatTimeLabel, getPanelTelemetry } from '@/lib/panelMetrics';
 
 type PanelsCardProps = {
 	panel: MockPanel;
@@ -25,10 +25,8 @@ const STATUS_DOT: Record<MockPanel['status'], string> = {
 export default function PanelsCard({ panel }: PanelsCardProps) {
 	const entries = getPanelTelemetry(mockTelemetry, panel.id);
 	const energyKwh = computeDailyEnergyKwh(entries, UPDATE_INTERVAL_MIN);
-	const averageVoltage = entries.length
-		? entries.reduce((acc, entry) => acc + entry.voltageV, 0) / entries.length
-		: 0;
-	const efficiency = Math.min(Math.max((averageVoltage / MAX_VOLTAGE) * 100, 0), 100);
+	const peakVoltage = computeDailyPeakVoltage(entries);
+	const efficiency = Math.min(Math.max((peakVoltage / MAX_VOLTAGE) * 100, 0), 100);
 	const nextSyncLabel = formatTimeLabel(Date.parse(panel.lastSyncAt) + UPDATE_INTERVAL_MIN * 60 * 1000);
 	const statusLabel = panel.status === 'maintenance' ? 'Manut.' : panel.status === 'online' ? 'Online' : 'Offline';
 

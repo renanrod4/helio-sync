@@ -1,4 +1,5 @@
 import { mockTelemetry } from '@/lib/mockData';
+import { computeDailyPeakVoltage } from '@/lib/panelMetrics';
 
 const MAX_VOLTAGE = 24;
 
@@ -7,8 +8,7 @@ function getAverageVoltage() {
 		return 0;
 	}
 
-	const total = mockTelemetry.reduce((sum, entry) => sum + entry.voltageV, 0);
-	return total / mockTelemetry.length;
+	return computeDailyPeakVoltage(mockTelemetry);
 }
 
 export function EfficiencyCard() {

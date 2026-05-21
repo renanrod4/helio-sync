@@ -61,3 +61,37 @@ export function computeDailyEnergyKwh(entries: MockTelemetry[], updateIntervalMi
 
     return energyWh / 1000;
 }
+
+export function computeAverageVoltageDaylight(entries: MockTelemetry[], minVoltage = 0.1) {
+    const daylightEntries = entries.filter(entry => entry.voltageV > minVoltage);
+    if (daylightEntries.length === 0) {
+        return 0;
+    }
+    const total = daylightEntries.reduce((sum, entry) => sum + entry.voltageV, 0);
+    return total / daylightEntries.length;
+}
+
+export function computeDailyPeakVoltage(entries: MockTelemetry[], referenceDate = new Date()) {
+    if (entries.length === 0) {
+        return 0;
+    }
+
+    const dayStart = new Date(Date.UTC(
+        referenceDate.getUTCFullYear(),
+        referenceDate.getUTCMonth(),
+        referenceDate.getUTCDate(),
+    ));
+    const dayEnd = new Date(dayStart);
+    dayEnd.setUTCDate(dayEnd.getUTCDate() + 1);
+
+    const dayEntries = entries.filter(entry => {
+        const timestamp = Date.parse(entry.timestamp);
+        return timestamp >= dayStart.getTime() && timestamp < dayEnd.getTime();
+    });
+
+    if (dayEntries.length === 0) {
+        return 0;
+    }
+
+    return Math.max(...dayEntries.map(entry => entry.voltageV));
+}

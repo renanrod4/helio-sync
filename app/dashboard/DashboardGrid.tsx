@@ -5,7 +5,7 @@ import { Co2AvoidedCard } from './Co2AvoidedCard';
 import { MonthlyEnergyCard } from './MonthlyEnergyCard';
 import { PanelStatusCard } from './PanelStatusCard';
 import { PanelMapCard } from './PanelMapCard';
-import { TelemetryChartCard } from './TelemetryChartCard';
+import { TelemetryChartCard } from '@/lib/TelemetryChartCard';
 import { UpdateForecastCard } from './UpdateForecastCard';
 import { WeatherGridCard } from './WeatherCard';
 
