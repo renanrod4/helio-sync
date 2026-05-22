@@ -38,6 +38,7 @@ export default async function PanelDashboardPage({ params }: PanelDashboardPageP
 
 	return (
 		<PanelDashboardClient
+			panelId={panelId}
 			panelLabel={panel.label}
 			panelStatus={panel.status}
 			efficiency={efficiency}
