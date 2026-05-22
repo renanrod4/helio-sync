@@ -16,7 +16,7 @@ import math
 import random
 import re
 from pathlib import Path
-from typing import Iterable, List
+from typing import Iterable, List, Dict
 
 ROOT = Path(__file__).resolve().parents[1]
 MOCK_FILE = ROOT / "lib" / "mockData.ts"
@@ -104,6 +104,37 @@ def build_mock_telemetry(panel_ids: List[str], start_date: dt.date, days: int) -
     return entries
 
 
+ENTRY_RE = re.compile(
+    r"\{\s*id:\s*'(?P<id>[^']+)',\s*panelId:\s*'(?P<panelId>[^']+)',\s*timestamp:\s*'(?P<timestamp>[^']+)',\s*voltageV:\s*(?P<voltageV>[-+]?\d+(?:\.\d+)?),\s*powerW:\s*(?P<powerW>\d+),\s*angleDeg:\s*(?P<angleDeg>[-+]?\d+(?:\.\d+)?),\s*\}",
+    re.MULTILINE | re.DOTALL,
+)
+
+
+def parse_existing_entries(content: str) -> List[dict]:
+    """Extract existing telemetry entries from the mockData.ts content.
+
+    Returns a list of dicts with keys: id, panelId, timestamp, voltageV, powerW, angleDeg
+    """
+    m = TELEMETRY_BLOCK_RE.search(content)
+    if not m:
+        return []
+    body = m.group("body")
+    entries: List[dict] = []
+    for em in ENTRY_RE.finditer(body):
+        groups = em.groupdict()
+        entries.append(
+            {
+                "id": groups["id"],
+                "panelId": groups["panelId"],
+                "timestamp": groups["timestamp"],
+                "voltageV": float(groups["voltageV"]),
+                "powerW": int(groups["powerW"]),
+                "angleDeg": float(groups["angleDeg"]),
+            }
+        )
+    return entries
+
+
 def format_entry(entry: dict) -> str:
     return (
         "\t{\n"
@@ -139,6 +170,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Update lastSyncAt for all panels to the latest generated timestamp",
     )
+    parser.add_argument(
+        "--merge",
+        action="store_true",
+        help="Merge generated entries with existing mockTelemetry instead of overwriting",
+    )
     return parser.parse_args()
 
 
@@ -156,10 +192,32 @@ def main() -> int:
         start_date = today - dt.timedelta(days=args.days - 1)
 
     entries = build_mock_telemetry(panel_ids, start_date, args.days)
-    updated = replace_mock_telemetry(content, entries)
+
+    if args.merge:
+        # Load existing entries and merge by (panelId, timestamp). New entries win.
+        existing = parse_existing_entries(content)
+        key_map: Dict[str, dict] = {}
+        for e in existing:
+            key = f"{e['panelId']}|{e['timestamp']}"
+            key_map[key] = e
+        for e in entries:
+            key = f"{e['panelId']}|{e['timestamp']}"
+            key_map[key] = e
+        combined = list(key_map.values())
+        combined.sort(key=lambda item: item["timestamp"])
+        # Reassign sequential ids
+        for idx, entry in enumerate(combined, start=1):
+            entry["id"] = f"tel_{idx:04d}"
+        updated = replace_mock_telemetry(content, combined)
+    else:
+        updated = replace_mock_telemetry(content, entries)
 
     if args.update_last_sync and entries:
-        latest_timestamp = entries[-1]["timestamp"]
+        # latest timestamp should reflect what's written back: prefer merged combined list if used
+        if args.merge:
+            latest_timestamp = combined[-1]["timestamp"] if combined else entries[-1]["timestamp"]
+        else:
+            latest_timestamp = entries[-1]["timestamp"]
         updated = update_last_sync(updated, latest_timestamp)
 
     MOCK_FILE.write_text(updated, encoding="utf-8")
