@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { FaRegBell } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa6';
 import type { MockTelemetry } from '@/lib/mockData';
 import PanelSidebar from './components/PanelSidebar';
 import PanelChart from './components/PanelChart';
 import PanelRight from './components/PanelRight';
+import Link from 'next/link';
 
 type PanelDashboardClientProps = {
 	panelLabel: string;
@@ -64,9 +66,17 @@ export default function PanelDashboardClient({
 			<div className="mx-auto flex w-full flex-col gap-2 2xl:max-w-8/10 2xl:gap-6">
 				<header className="flex flex-col gap-4 rounded-2xl border border-foreground/5 bg-white/3 px-5 py-2 backdrop-blur-sm 2xl:py-4">
 					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-						<div className="flex flex-col gap-1">
-							<h1 className="text-xl font-semibold text-primary">Dashboard</h1>
-							<span className="text-sm text-secondary">Placa {panelLabel}</span>
+						<div className="flex items-center gap-2 h-full">
+							<Link
+								className="flex h-full min-h-15 w-10 items-center justify-center text-center rounded-l-xl border border-foreground/10 bg-white/5 hover:bg-white/10 hover:border-foreground/15 transition-colors text-secondary hover:text-primary"
+								href="/dashboard?tab=fleet"
+							>
+								<FaArrowLeft size={16} className="" />
+							</Link>
+							<div className="flex flex-col items-center justify-center min-h-15 py-1 px-3 rounded-r-xl border border-foreground/10 bg-white/5">
+								<h1 className="text-xl font-semibold text-primary">Dashboard</h1>
+								<span className="text-sm text-secondary">Placa {panelLabel}</span>
+							</div>
 						</div>
 						<div className="flex items-center gap-3">
 							<button
