@@ -73,7 +73,7 @@ export default function PanelDashboardClient({
 							>
 								<FaArrowLeft size={16} className="" />
 							</Link>
-							<div className="flex flex-col items-center justify-center min-h-15 py-1 px-3 rounded-r-xl border border-foreground/10 bg-white/5">
+							<div className="flex flex-col items-center justify-center min-h-15 py-1 px-3 pr-4 rounded-r-xl border border-foreground/10 bg-white/5">
 								<h1 className="text-xl font-semibold text-primary">Dashboard</h1>
 								<span className="text-sm text-secondary">Placa {panelLabel}</span>
 							</div>
