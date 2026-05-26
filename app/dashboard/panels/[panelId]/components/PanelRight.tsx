@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import type { PetalsStatus } from '@/lib/models/userDashboardData';
 import { FiPower, FiRefreshCw } from 'react-icons/fi';
 import { BiTargetLock } from 'react-icons/bi';
 import { IoIosClose } from 'react-icons/io';
@@ -6,9 +7,12 @@ import { IoIosClose } from 'react-icons/io';
 type Props = {
   panelId?: string;
   panelLabel?: string;
+  azimuthDeg?: number;
+  elevationDeg?: number;
+  petalsStatus?: PetalsStatus;
 };
 
-export default function PanelRight({ panelId, panelLabel }: Props) {
+export default function PanelRight({ panelId, panelLabel, azimuthDeg, elevationDeg, petalsStatus }: Props) {
   const [followMode, setFollowMode] = useState(true);
   const [busy, setBusy] = useState(false);
   const [moving, setMoving] = useState(false);
@@ -62,8 +66,11 @@ export default function PanelRight({ panelId, panelLabel }: Props) {
           <FiPower />
         </div>
         <div>
-          <div className="text-xs text-muted">Controle Remoto</div>
-          <div className="font-semibold">{panelLabel ?? 'Placa'}</div>
+            <div className="text-xs text-muted">Controle Remoto</div>
+            <div className="font-semibold">{panelLabel ?? 'Placa'}</div>
+            <div className="text-xs text-muted mt-1">
+              Az: {Number(azimuthDeg ?? 0).toFixed(1)}° • El: {Number(elevationDeg ?? 0).toFixed(1)}° • Pétalas: {petalsStatus ?? 'unknown'}
+            </div>
         </div>
       </div>
 

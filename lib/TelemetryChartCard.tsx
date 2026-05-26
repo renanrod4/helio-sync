@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { mockTelemetry, type MockTelemetry } from '@/lib/mockData';
+import { mockTelemetry } from '@/lib/mockData';
+import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 const chartWidth = 700;
 const chartHeight = 260;
@@ -14,14 +15,14 @@ type TelemetryPoint = {
 	voltageV: number;
 };
 
-function buildDailySeries24h(entries: MockTelemetry[]): TelemetryPoint[] {
+function buildDailySeries24h(entries: TelemetryEntry[]): TelemetryPoint[] {
 	const now = new Date();
 	const startOfDay = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 	const buckets = Array.from({ length: 24 }, (_, hour) => {
 		const bucketStart = startOfDay + hour * 3_600_000;
 		const bucketEnd = bucketStart + 3_600_000;
-		const matches = entries.filter(entry => {
-			const timestamp = Date.parse(entry.timestamp);
+				const matches = entries.filter(entry => {
+					const timestamp = Date.parse(entry.timestamp);
 			return timestamp >= bucketStart && timestamp < bucketEnd;
 		});
 		const averageVoltage = matches.length
@@ -36,7 +37,7 @@ function buildDailySeries24h(entries: MockTelemetry[]): TelemetryPoint[] {
 	return smoothSeries(buckets, 3);
 }
 
-function buildWeeklySeries12h(entries: MockTelemetry[]): TelemetryPoint[] {
+function buildWeeklySeries12h(entries: TelemetryEntry[]): TelemetryPoint[] {
 	const now = new Date();
 	const todayUtcDay = now.getUTCDay();
 	const daysFromSaturday = (todayUtcDay + 1) % 7;
@@ -48,8 +49,8 @@ function buildWeeklySeries12h(entries: MockTelemetry[]): TelemetryPoint[] {
 	const buckets = Array.from({ length: 14 }, (_, index) => {
 		const bucketStart = startOfWindow + index * 43_200_000;
 		const bucketEnd = bucketStart + 43_200_000;
-		const matches = entries.filter(entry => {
-			const timestamp = Date.parse(entry.timestamp);
+				const matches = entries.filter(entry => {
+					const timestamp = Date.parse(entry.timestamp);
 			return timestamp >= bucketStart && timestamp < bucketEnd;
 		});
 		const averageVoltage = matches.length
@@ -160,7 +161,7 @@ function buildXAxisLabels(series: TelemetryPoint[], range: 'day' | 'week') {
 }
 
 type TelemetryChartCardProps = {
-	telemetry?: MockTelemetry[];
+	telemetry?: TelemetryEntry[];
 	subjectLabel?: string;
 	chartHeightClassName?: string;
 };
@@ -171,7 +172,7 @@ export function TelemetryChartCard({
 	chartHeightClassName,
 }: TelemetryChartCardProps) {
 	const [range, setRange] = useState<'day' | 'week'>('day');
-	const telemetryEntries = telemetry ?? mockTelemetry;
+	const telemetryEntries: TelemetryEntry[] = telemetry ?? (mockTelemetry as TelemetryEntry[]);
 	const series = useMemo(() => {
 		return range === 'day'
 			? buildDailySeries24h(telemetryEntries)

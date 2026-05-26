@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import type { TelemetryEntry, PetalsStatus } from '@/lib/models/userDashboardData';
 
 type Props = {
   panelStatus: "online" | "offline" | "maintenance";
@@ -14,6 +15,8 @@ type Props = {
   azimuthDeg: number;
   elevationDeg: number;
   co2AvoidedKg: number;
+  panelTelemetry?: TelemetryEntry[];
+  petalsStatus?: PetalsStatus;
 };
 
 export default function PanelSidebar({
@@ -28,6 +31,8 @@ export default function PanelSidebar({
   azimuthDeg,
   elevationDeg,
   co2AvoidedKg,
+  // panelTelemetry,
+  petalsStatus,
 }: Props) {
   const powerFill = Math.min((latestPowerW / 500) * 100, 100);
   const statusBadgeStyles = {
@@ -41,10 +46,11 @@ export default function PanelSidebar({
   return (
     <div className="flex h-full flex-col  rounded-2xl border border-foreground/10 bg-[linear-gradient(180deg,rgba(6,14,6,0.92),rgba(6,14,6,0.6))] p-4 col-span-1 row-span-2">
       <div className="flex items-start justify-between gap-3">
-        <div
-          className={`w-full rounded-lg border p-2 text-center text-xs uppercase tracking-[0.2em] ${statusBadgeStyles[panelStatus]}`}
-        >
-          {statusLabel}
+        <div className={`w-full rounded-lg border p-2 text-center text-xs uppercase tracking-[0.2em] ${statusBadgeStyles[panelStatus]}`}>
+          <div>{statusLabel}</div>
+          {petalsStatus ? (
+            <div className="mt-1 text-[11px] text-secondary">Pétalas: {petalsStatus === 'open' ? 'Abertas' : petalsStatus === 'closed' ? 'Fechadas' : 'Movendo'}</div>
+          ) : null}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 pt-8">

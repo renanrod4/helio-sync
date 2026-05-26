@@ -1,13 +1,27 @@
-import { notFound } from 'next/navigation';
 
-import { mockPanels, mockTelemetry } from '@/lib/mockData';
+import { notFound } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { CO2_KG_PER_KWH } from '@/lib/impactMetrics';
 import { computeDailyEnergyKwh, computeDailyPeakVoltage, formatTimeLabel, getPanelTelemetry } from '@/lib/panelMetrics';
-
 import PanelDashboardClient from './PanelDashboardClient';
+import type { PanelStatus, PetalsStatus } from '@/lib/models/userDashboardData';
+
 
 const UPDATE_INTERVAL_MIN = 30;
 const MAX_VOLTAGE = 24;
+
+type PanelFromApi = {
+	id?: string;
+	_id?: string;
+	label: string;
+	latitude: number;
+	longitude: number;
+	status: PanelStatus;
+	lastSyncAt: string;
+	currentAngleAzimuth?: number;
+	currentAngleElevation?: number;
+	petalsStatus?: PetalsStatus;
+};
 
 type PanelDashboardPageProps = {
 	params: {
@@ -17,13 +31,30 @@ type PanelDashboardPageProps = {
 
 export default async function PanelDashboardPage({ params }: PanelDashboardPageProps) {
 	const { panelId } = await params;
-	const panel = mockPanels.find(item => item.id === panelId);
 
-	if (!panel) {
-		notFound();
-	}
+	
+	const baseUrl =
+		process.env.NEXT_PUBLIC_BASE_URL ||
+		(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
 
-	const entries = getPanelTelemetry(mockTelemetry, panel.id);
+	const cookieStore = await cookies();
+	const allCookies = (await cookieStore.getAll()) as Array<{ name: string; value: string }>;
+
+	const cookieHeader = allCookies.map((c) => `${c.name}=${c.value}`).join('; ');
+
+	const res = await fetch(`${baseUrl}/api/dashboard/user`, {
+		cache: 'no-store',
+		headers: cookieHeader ? { cookie: cookieHeader } : {},
+	});
+	if (!res.ok) notFound();
+	const data = await res.json();
+
+	const panels: PanelFromApi[] = data.dashboard?.panels || [];
+	const telemetry = data.dashboard?.telemetry || [];
+	const panel = panels.find((item) => (item.id || item._id?.toString()) === panelId);
+	if (!panel) notFound();
+
+	const entries = getPanelTelemetry(telemetry, (panel.id || (panel._id?.toString?.() ?? '')));
 	const latestEntry = entries[entries.length - 1];
 	const energyKwh = computeDailyEnergyKwh(entries, UPDATE_INTERVAL_MIN);
 	const peakVoltage = computeDailyPeakVoltage(entries);
@@ -32,8 +63,9 @@ export default async function PanelDashboardPage({ params }: PanelDashboardPageP
 	const latestVoltage = latestEntry?.voltageV ?? 0;
 	const latestPowerW = latestEntry?.powerW ?? 0;
 	const currentA = latestVoltage ? latestPowerW / latestVoltage : 0;
-	const azimuthDeg = panel.currentAngleAzimuth;
-	const elevationDeg = panel.currentAngleElevation;
+	const azimuthDeg = panel.currentAngleAzimuth ?? 0;
+	const elevationDeg = panel.currentAngleElevation ?? 0;
+	const petalsStatus = panel.petalsStatus ?? 'open';
 	const co2AvoidedKg = energyKwh * CO2_KG_PER_KWH;
 
 	return (
@@ -50,6 +82,7 @@ export default async function PanelDashboardPage({ params }: PanelDashboardPageP
 			currentA={currentA}
 			azimuthDeg={azimuthDeg}
 			elevationDeg={elevationDeg}
+			petalsStatus={petalsStatus}
 			co2AvoidedKg={co2AvoidedKg}
 		/>
 	);

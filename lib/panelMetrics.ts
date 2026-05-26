@@ -1,6 +1,8 @@
-import type { MockPanel, MockTelemetry } from './mockData';
+import { Panel } from '@/app/dashboard/panels/PanelCard';
 
-export function getPanelTelemetry(telemetry: MockTelemetry[], panelId: string) {
+import { TelemetryEntry } from './models/userDashboardData';
+
+export function getPanelTelemetry(telemetry: TelemetryEntry[], panelId: string) {
     return telemetry
         .filter(entry => entry.panelId === panelId)
         .sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
@@ -19,7 +21,7 @@ export function formatTimeLabel(value: number, timeZone: 'UTC' | 'local' = 'UTC'
     return new Intl.DateTimeFormat('pt-BR', options).format(new Date(value));
 }
 
-export function getLatestSyncTimestamp(panels: MockPanel[]) {
+export function getLatestSyncTimestamp(panels: Panel[]) {
     if (panels.length === 0) {
         return Date.now();
     }
@@ -27,7 +29,7 @@ export function getLatestSyncTimestamp(panels: MockPanel[]) {
     return Math.max(...panels.map(panel => Date.parse(panel.lastSyncAt)));
 }
 
-export function computeDailyEnergyKwh(entries: MockTelemetry[], updateIntervalMin: number) {
+export function computeDailyEnergyKwh(entries: TelemetryEntry[], updateIntervalMin: number) {
     if (entries.length === 0) {
         return 0;
     }
@@ -62,7 +64,7 @@ export function computeDailyEnergyKwh(entries: MockTelemetry[], updateIntervalMi
     return energyWh / 1000;
 }
 
-export function computeAverageVoltageDaylight(entries: MockTelemetry[], minVoltage = 0.1) {
+export function computeAverageVoltageDaylight(entries: TelemetryEntry[], minVoltage = 0.1) {
     const daylightEntries = entries.filter(entry => entry.voltageV > minVoltage);
     if (daylightEntries.length === 0) {
         return 0;
@@ -71,7 +73,7 @@ export function computeAverageVoltageDaylight(entries: MockTelemetry[], minVolta
     return total / daylightEntries.length;
 }
 
-export function computeDailyPeakVoltage(entries: MockTelemetry[], referenceDate = new Date()) {
+export function computeDailyPeakVoltage(entries: TelemetryEntry[], referenceDate = new Date()) {
     if (entries.length === 0) {
         return 0;
     }

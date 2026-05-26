@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
-import { TelemetryChartCard } from "@/lib/TelemetryChartCard";
-import type { MockTelemetry } from "@/lib/mockData";
+import React from 'react';
+import { TelemetryChartCard } from '@/lib/TelemetryChartCard';
+import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 type Props = {
-  panelTelemetry: MockTelemetry[];
+  panelTelemetry: TelemetryEntry[];
   panelLabel: string;
 };
 

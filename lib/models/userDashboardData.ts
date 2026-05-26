@@ -3,6 +3,15 @@ import mongoose, { Schema } from 'mongoose';
 export type PanelStatus = 'online' | 'offline' | 'maintenance';
 export type PetalsStatus = 'open' | 'closed' | 'moving';
 
+export type TelemetryEntry = {
+  id?: string;
+  panelId: string;
+  timestamp: string;
+  voltageV: number;
+  powerW: number;
+  angleDeg: number;
+};
+
 const PanelSchema = new Schema({
   label: { type: String, required: true },
   latitude: Number,

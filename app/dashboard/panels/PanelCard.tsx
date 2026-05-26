@@ -1,29 +1,42 @@
 import Link from 'next/link';
 
-import { mockTelemetry, type MockPanel } from '@/lib/mockData';
+import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 import { computeDailyEnergyKwh, computeDailyPeakVoltage, formatTimeLabel, getPanelTelemetry } from '@/lib/panelMetrics';
 
+export type Panel = {
+	id: string;
+	label: string;
+	latitude: number;
+	longitude: number;
+	status: 'online' | 'offline' | 'maintenance';
+	lastSyncAt: string;
+	currentAngleAzimuth: number;
+	currentAngleElevation: number;
+	petalsStatus: 'open' | 'closed' | 'moving';
+};
+
 type PanelsCardProps = {
-	panel: MockPanel;
+	panel: Panel;
+	telemetry?: TelemetryEntry[];
 };
 
 const UPDATE_INTERVAL_MIN = 30;
 const MAX_VOLTAGE = 24;
 
-const STATUS_STYLES: Record<MockPanel['status'], string> = {
+const STATUS_STYLES: Record<Panel['status'], string> = {
 	online: 'border-helio-green/30 bg-helio-green/10 text-helio-green-light',
 	offline: 'border-helio-rose/30 bg-helio-rose/10 text-helio-rose',
 	maintenance: 'border-helio-gold/30 bg-helio-gold/10 text-helio-gold',
 };
 
-const STATUS_DOT: Record<MockPanel['status'], string> = {
+const STATUS_DOT: Record<Panel['status'], string> = {
 	online: 'bg-helio-green-light',
 	offline: 'bg-helio-rose',
 	maintenance: 'bg-helio-gold',
 };
 
-export default function PanelsCard({ panel }: PanelsCardProps) {
-	const entries = getPanelTelemetry(mockTelemetry, panel.id);
+export default function PanelsCard({ panel, telemetry }: PanelsCardProps) {
+	const entries = getPanelTelemetry(telemetry ?? [], panel.id);
 	const energyKwh = computeDailyEnergyKwh(entries, UPDATE_INTERVAL_MIN);
 	const peakVoltage = computeDailyPeakVoltage(entries);
 	const efficiency = Math.min(Math.max((peakVoltage / MAX_VOLTAGE) * 100, 0), 100);

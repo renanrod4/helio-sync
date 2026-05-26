@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FaRegBell } from 'react-icons/fa';
 import { FaArrowLeft } from 'react-icons/fa6';
-import type { MockTelemetry } from '@/lib/mockData';
+import type { TelemetryEntry, PetalsStatus } from '@/lib/models/userDashboardData';
 import PanelSidebar from './components/PanelSidebar';
 import PanelChart from './components/PanelChart';
 import PanelRight from './components/PanelRight';
@@ -16,13 +16,14 @@ type PanelDashboardClientProps = {
 	efficiency: number;
 	energyKwh: number;
 	lastSyncLabel: string;
-	panelTelemetry: MockTelemetry[];
+	panelTelemetry: TelemetryEntry[];
 	latestVoltage: number;
 	latestPowerW: number;
 	currentA: number;
 	azimuthDeg: number;
 	elevationDeg: number;
 	co2AvoidedKg: number;
+	petalsStatus?: PetalsStatus;
 };
 
 export default function PanelDashboardClient({
@@ -39,6 +40,7 @@ export default function PanelDashboardClient({
 	azimuthDeg,
 	elevationDeg,
 	co2AvoidedKg,
+	petalsStatus,
 }: PanelDashboardClientProps) {
 	const [isMobile, setIsMobile] = useState(false);
 	const monthlyEnergyKwh = energyKwh ? energyKwh * 22 : 0;
@@ -108,7 +110,7 @@ export default function PanelDashboardClient({
 
 					<PanelChart panelTelemetry={panelTelemetry} panelLabel={panelLabel} />
 
-					<PanelRight panelId={panelId} panelLabel={panelLabel} />
+					<PanelRight panelId={panelId} panelLabel={panelLabel} azimuthDeg={azimuthDeg} elevationDeg={elevationDeg} petalsStatus={petalsStatus} />
 				</section>
 			</div>
 		</main>
