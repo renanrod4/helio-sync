@@ -1,7 +1,14 @@
+
+import type { MockTelemetry } from '@/lib/mockData';
 import { CO2_KG_PER_KWH, computeTotalEnergy } from '@/lib/impactMetrics';
 
-export function Co2AvoidedCard() {
-	const totalEnergy = computeTotalEnergy();
+
+type Co2AvoidedCardProps = {
+	telemetry: MockTelemetry[];
+};
+
+export function Co2AvoidedCard({ telemetry }: Co2AvoidedCardProps) {
+	const totalEnergy = computeTotalEnergy(telemetry);
 	const avoidedCo2 = totalEnergy * CO2_KG_PER_KWH;
 
 	return (

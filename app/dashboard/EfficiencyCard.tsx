@@ -1,18 +1,17 @@
-import { mockTelemetry } from '@/lib/mockData';
+
+import type { MockTelemetry } from '@/lib/mockData';
 import { computeDailyPeakVoltage } from '@/lib/panelMetrics';
+
 
 const MAX_VOLTAGE = 24;
 
-function getAverageVoltage() {
-	if (mockTelemetry.length === 0) {
-		return 0;
-	}
 
-	return computeDailyPeakVoltage(mockTelemetry);
-}
+type EfficiencyCardProps = {
+	telemetry: MockTelemetry[];
+};
 
-export function EfficiencyCard() {
-	const averageVoltage = getAverageVoltage();
+export function EfficiencyCard({ telemetry }: EfficiencyCardProps) {
+	const averageVoltage = telemetry.length > 0 ? computeDailyPeakVoltage(telemetry) : 0;
 	const efficiencyRaw = (averageVoltage / MAX_VOLTAGE) * 100;
 	const efficiency = Math.min(Math.max(efficiencyRaw, 0), 100);
 	const statusLabel = efficiency >= 85 ? 'Ótimo' : efficiency >= 70 ? 'Bom' : 'Atenção';

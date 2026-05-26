@@ -15,9 +15,13 @@ export async function GET() {
   if (!payload || !payload.sub) {
     return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
   }
-  const dashboard = await UserDashboardDataModel.findOne({ userId: payload.sub });
+  let dashboard = await UserDashboardDataModel.findOne({ userId: payload.sub });
   if (!dashboard) {
-    return NextResponse.json({ error: 'Dashboard não encontrado para o usuário' }, { status: 404 });
+    dashboard = {
+      panels: [],
+      telemetry: [],
+      alerts: [],
+    };
   }
   return NextResponse.json({ dashboard });
 }

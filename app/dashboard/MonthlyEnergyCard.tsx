@@ -1,8 +1,15 @@
+
+import type { MockTelemetry } from '@/lib/mockData';
 import { computeMonthlyEnergy, getMonthLabel } from '@/lib/impactMetrics';
 
-export function MonthlyEnergyCard() {
-	const monthEnergy = computeMonthlyEnergy();
-	const monthLabel = getMonthLabel();
+
+type MonthlyEnergyCardProps = {
+	telemetry: MockTelemetry[];
+};
+
+export function MonthlyEnergyCard({ telemetry }: MonthlyEnergyCardProps) {
+	const monthEnergy = computeMonthlyEnergy(telemetry);
+	const monthLabel = getMonthLabel(telemetry);
 
 	return (
 		<div className="flex h-full flex-col justify-between rounded-2xl border border-helio-green/20 bg-[linear-gradient(180deg,rgba(6,14,6,0.92),rgba(6,14,6,0.6))] p-4 lg:col-span-1 lg:row-span-1">

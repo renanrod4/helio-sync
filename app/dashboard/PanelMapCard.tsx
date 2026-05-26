@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useMemo } from 'react';
 import type { LatLngExpression } from 'leaflet';
-import { mockPanels } from '@/lib/mockData';
+import type { PanelStatus } from '@/lib/models/userDashboardData';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
@@ -14,7 +14,15 @@ const TileLayer = dynamic(() => import('react-leaflet').then(module => module.Ti
 const CircleMarker = dynamic(() => import('react-leaflet').then(module => module.CircleMarker), { ssr: false });
 const Tooltip = dynamic(() => import('react-leaflet').then(module => module.Tooltip), { ssr: false });
 
-const STATUS_COLORS: Record<(typeof mockPanels)[number]['status'], string> = {
+type Panel = {
+	id: string;
+	label: string;
+	latitude: number;
+	longitude: number;
+	status: PanelStatus;
+};
+
+const STATUS_COLORS: Record<PanelStatus, string> = {
 	online: '#90ee90',
 	offline: '#f4a1c8',
 	maintenance: '#ffe655',
@@ -22,11 +30,10 @@ const STATUS_COLORS: Record<(typeof mockPanels)[number]['status'], string> = {
 
 const CARTO_TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
-function buildCenter(panels: typeof mockPanels): LatLngExpression {
+function buildCenter(panels: Panel[]): LatLngExpression {
 	if (panels.length === 0) {
 		return [-23.55, -46.633];
 	}
-
 	const sum = panels.reduce(
 		(acc, panel) => {
 			acc.lat += panel.latitude;
@@ -35,12 +42,11 @@ function buildCenter(panels: typeof mockPanels): LatLngExpression {
 		},
 		{ lat: 0, lng: 0 },
 	);
-
 	return [sum.lat / panels.length, sum.lng / panels.length];
 }
 
-export function PanelMapCard() {
-	const center = useMemo(() => buildCenter(mockPanels), []);
+export function PanelMapCard({ panels }: { panels: Panel[] }) {
+	const center = useMemo(() => buildCenter(panels), [panels]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -65,11 +71,19 @@ export function PanelMapCard() {
 		};
 	}, []);
 
+	if (panels.length === 0) {
+		return (
+			<div className="relative col-span-2 row-span-1 flex h-full flex-col items-center justify-center rounded-2xl border border-foreground/10 bg-[linear-gradient(180deg,rgba(6,14,6,0.92),rgba(6,14,6,0.6))] xl:row-span-2">
+				<span className="text-muted text-xs">Carregando mapa das placas...</span>
+			</div>
+		);
+	}
+
 	return (
 		<div className="relative col-span-2 row-span-1 flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-[linear-gradient(180deg,rgba(6,14,6,0.92),rgba(6,14,6,0.6))] xl:row-span-2">
 			<div className="flex items-center justify-between px-3 pt-3 xl:px-4 xl:pt-4">
 				<span className="text-[10px] uppercase tracking-[0.28em] text-muted">Posição das placas</span>
-				<span className="text-xs text-muted">{mockPanels.length} Placas posicionadas</span>
+				<span className="text-xs text-muted">{panels.length} Placas posicionadas</span>
 			</div>
 			<div className="relative h-full w-full px-3 pb-3 pt-2 xl:px-4 xl:pb-4 xl:pt-3">
 				<div className="relative h-full w-full overflow-hidden rounded-2xl border border-foreground/10">
@@ -82,7 +96,7 @@ export function PanelMapCard() {
 					>
 						<TileLayer url={CARTO_TILE_URL} attribution="© Carto © OpenStreetMap" />
 						<Pane name="markers" style={{ zIndex: 650 }}>
-							{mockPanels.map(panel => (
+							{panels.map(panel => (
 								<CircleMarker
 									key={panel.id}
 									center={[panel.latitude, panel.longitude]}
@@ -105,20 +119,20 @@ export function PanelMapCard() {
 						</Pane>
 					</MapContainer>
 				</div>
-					<div className="pointer-events-none absolute z-999 bottom-5 left-5 flex items-center gap-3 rounded-full border border-white/10 bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">
-						<span className="inline-flex items-center gap-2">
-							<span className="h-2 w-2 rounded-full bg-helio-green-light" aria-hidden="true" />
-							Online
-						</span>
-						<span className="inline-flex items-center gap-2">
-							<span className="h-2 w-2 rounded-full bg-helio-gold" aria-hidden="true" />
-							Manutenção
-						</span>
-						<span className="inline-flex items-center gap-2">
-							<span className="h-2 w-2 rounded-full bg-helio-rose" aria-hidden="true" />
-							Offline
-						</span>
-					</div>
+				<div className="pointer-events-none absolute z-999 bottom-5 left-5 flex items-center gap-3 rounded-full border border-white/10 bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">
+					<span className="inline-flex items-center gap-2">
+						<span className="h-2 w-2 rounded-full bg-helio-green-light" aria-hidden="true" />
+						Online
+					</span>
+					<span className="inline-flex items-center gap-2">
+						<span className="h-2 w-2 rounded-full bg-helio-gold" aria-hidden="true" />
+						Manutenção
+					</span>
+					<span className="inline-flex items-center gap-2">
+						<span className="h-2 w-2 rounded-full bg-helio-rose" aria-hidden="true" />
+						Offline
+					</span>
+				</div>
 			</div>
 		</div>
 	);

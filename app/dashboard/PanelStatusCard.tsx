@@ -1,14 +1,19 @@
-import { mockPanels } from '@/lib/mockData';
 
-function countByStatus(status: (typeof mockPanels)[number]['status']) {
-	return mockPanels.filter(panel => panel.status === status).length;
+import type { PanelStatus } from '@/lib/models/userDashboardData';
+
+type Panel = {
+	status: PanelStatus;
+};
+
+function countByStatus(panels: Panel[], status: PanelStatus) {
+	return panels.filter(panel => panel.status === status).length;
 }
 
-export function PanelStatusCard() {
-	const total = mockPanels.length || 1;
-	const online = countByStatus('online');
-	const maintenance = countByStatus('maintenance');
-	const offline = countByStatus('offline');
+export function PanelStatusCard({ panels }: { panels: Panel[] }) {
+	const total = panels.length || 1;
+	const online = countByStatus(panels, 'online');
+	const maintenance = countByStatus(panels, 'maintenance');
+	const offline = countByStatus(panels, 'offline');
 	const onlineRate = (online / total) * 100;
 	const maintenanceRate = (maintenance / total) * 100;
 	const offlineRate = (offline / total) * 100;
