@@ -1,5 +1,4 @@
-
-import type { MockTelemetry } from '@/lib/mockData';
+import { TelemetryEntry } from '@/lib/models/userDashboardData';
 import { computeDailyPeakVoltage } from '@/lib/panelMetrics';
 
 
@@ -7,7 +6,7 @@ const MAX_VOLTAGE = 24;
 
 
 type EfficiencyCardProps = {
-	telemetry: MockTelemetry[];
+	telemetry: TelemetryEntry[];
 };
 
 export function EfficiencyCard({ telemetry }: EfficiencyCardProps) {

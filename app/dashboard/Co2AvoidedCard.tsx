@@ -1,10 +1,9 @@
-
-import type { MockTelemetry } from '@/lib/mockData';
 import { CO2_KG_PER_KWH, computeTotalEnergy } from '@/lib/impactMetrics';
+import { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 
 type Co2AvoidedCardProps = {
-	telemetry: MockTelemetry[];
+	telemetry: TelemetryEntry[];
 };
 
 export function Co2AvoidedCard({ telemetry }: Co2AvoidedCardProps) {

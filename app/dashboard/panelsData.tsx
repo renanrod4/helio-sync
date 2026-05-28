@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import PanelsCard from './panels/PanelCard';
 import type { PanelStatus, TelemetryEntry } from '@/lib/models/userDashboardData';

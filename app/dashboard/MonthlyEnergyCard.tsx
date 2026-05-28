@@ -1,10 +1,9 @@
-
-import type { MockTelemetry } from '@/lib/mockData';
 import { computeMonthlyEnergy, getMonthLabel } from '@/lib/impactMetrics';
+import { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 
 type MonthlyEnergyCardProps = {
-	telemetry: MockTelemetry[];
+	telemetry: TelemetryEntry[];
 };
 
 export function MonthlyEnergyCard({ telemetry }: MonthlyEnergyCardProps) {

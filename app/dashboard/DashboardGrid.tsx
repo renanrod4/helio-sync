@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import type { MockTelemetry } from '@/lib/mockData';
+import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 import type { PanelStatus } from '@/lib/models/userDashboardData';
 import { EfficiencyCard } from './EfficiencyCard';
 import { Co2AvoidedCard } from './Co2AvoidedCard';
@@ -12,7 +12,7 @@ import { UpdateForecastCard } from './UpdateForecastCard';
 import { WeatherGridCard } from './WeatherCard';
 export function DashboardGrid() {
 
-	const [telemetry, setTelemetry] = useState<MockTelemetry[] | null>(null);
+	const [telemetry, setTelemetry] = useState<TelemetryEntry[] | null>(null);
 	const [panels, setPanels] = useState<Panel[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export function DashboardGrid() {
 					throw new Error('Erro ao buscar dados do dashboard');
 				}
 				const data = await res.json();
-				setTelemetry(data.dashboard?.telemetry || []);
+				setTelemetry((data.dashboard?.telemetry || []) as TelemetryEntry[]);
 				setPanels(
 					(data.dashboard?.panels || []).map((panel: unknown) => {
 						const p = panel as {

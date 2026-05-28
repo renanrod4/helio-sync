@@ -1,8 +1,8 @@
-import { mockTelemetry } from '@/lib/mockData';
+import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 export const CO2_KG_PER_KWH = 0.025;
 
-function getLatestTimestamp(entries: typeof mockTelemetry) {
+function getLatestTimestamp(entries: TelemetryEntry[]) {
 	if (entries.length === 0) {
 		return Date.now();
 	}
@@ -10,8 +10,8 @@ function getLatestTimestamp(entries: typeof mockTelemetry) {
 	return Math.max(...entries.map(entry => Date.parse(entry.timestamp)));
 }
 
-function groupTelemetryByPanel(entries: typeof mockTelemetry) {
-	const grouped = new Map<string, typeof mockTelemetry>();
+function groupTelemetryByPanel(entries: TelemetryEntry[]) {
+	const grouped = new Map<string, TelemetryEntry[]>();
 
 	for (const entry of entries) {
 		const current = grouped.get(entry.panelId) ?? [];
@@ -22,7 +22,7 @@ function groupTelemetryByPanel(entries: typeof mockTelemetry) {
 	return grouped;
 }
 
-function computeEnergyKwh(entries: typeof mockTelemetry) {
+function computeEnergyKwh(entries: TelemetryEntry[]) {
 	if (entries.length < 2) {
 		return 0;
 	}
@@ -44,7 +44,7 @@ function computeEnergyKwh(entries: typeof mockTelemetry) {
 	return totalKwh;
 }
 
-export function computeTotalEnergy(entries: typeof mockTelemetry = mockTelemetry) {
+export function computeTotalEnergy(entries: TelemetryEntry[] = []) {
 	const grouped = groupTelemetryByPanel(entries);
 	let total = 0;
 
@@ -55,18 +55,18 @@ export function computeTotalEnergy(entries: typeof mockTelemetry = mockTelemetry
 	return total;
 }
 
-export function computeMonthlyEnergy(entries: typeof mockTelemetry = mockTelemetry) {
+export function computeMonthlyEnergy(entries: TelemetryEntry[] = []) {
 	const monthlyEntries = filterTelemetryForMonth(entries);
 	return computeTotalEnergy(monthlyEntries);
 }
 
-export function getMonthLabel(entries: typeof mockTelemetry = mockTelemetry) {
+export function getMonthLabel(entries: TelemetryEntry[] = []) {
 	return new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(
 		new Date(getLatestTimestamp(entries)),
 	);
 }
 
-function filterTelemetryForMonth(entries: typeof mockTelemetry) {
+function filterTelemetryForMonth(entries: TelemetryEntry[]) {
 	if (entries.length === 0) {
 		return entries;
 	}

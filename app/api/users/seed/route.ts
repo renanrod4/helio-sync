@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/lib/db';
 import { UserModel } from '@/lib/models/user';
-import { mockUsers } from '@/lib/mockData';
+import { mockUsers } from '@/lib/mockDataa';
 
 function isAuthorized(request: Request) {
 	const seedKey = process.env.SEED_KEY;

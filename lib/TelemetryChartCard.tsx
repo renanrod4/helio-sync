@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { mockTelemetry } from '@/lib/mockData';
 import type { TelemetryEntry } from '@/lib/models/userDashboardData';
 
 const chartWidth = 700;
@@ -172,12 +171,12 @@ export function TelemetryChartCard({
 	chartHeightClassName,
 }: TelemetryChartCardProps) {
 	const [range, setRange] = useState<'day' | 'week'>('day');
-	const telemetryEntries: TelemetryEntry[] = telemetry ?? (mockTelemetry as TelemetryEntry[]);
 	const series = useMemo(() => {
+		const telemetryEntries: TelemetryEntry[] = telemetry ?? [];
 		return range === 'day'
 			? buildDailySeries24h(telemetryEntries)
 			: buildWeeklySeries12h(telemetryEntries);
-	}, [range, telemetryEntries]);
+	}, [range, telemetry]);
 	const { linePath, areaPath, minValue, maxValue } = buildChartPaths(series);
 	const latestVoltage = series.at(-1)?.voltageV ?? 0;
 	const peakPoint = series.reduce<TelemetryPoint | null>((currentPeak, point) => {
