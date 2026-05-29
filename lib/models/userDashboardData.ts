@@ -13,6 +13,7 @@ export type TelemetryEntry = {
 };
 
 const PanelSchema = new Schema({
+  serialId: { type: String },
   label: { type: String, required: true },
   latitude: Number,
   longitude: Number,

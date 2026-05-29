@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 
@@ -8,12 +10,14 @@ export type PanelModalProps = {
 };
 
 export type PanelFormData = {
+  serialId: string;
   label: string;
   latitude: number;
   longitude: number;
 };
 
 const initialState: PanelFormData = {
+  serialId: '',
   label: '',
   latitude: 0,
   longitude: 0,
@@ -35,6 +39,10 @@ export default function PanelModal({ open, onClose, onSubmit }: PanelModalProps)
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.serialId) {
+      setError('Serial ID do dispositivo é obrigatório');
+      return;
+    }
     if (!form.label) {
       setError('Nome da placa é obrigatório');
       return;
@@ -64,10 +72,21 @@ export default function PanelModal({ open, onClose, onSubmit }: PanelModalProps)
         </div>
         <form onSubmit={handleSubmit} className="bg-helio-bg-secondary p-6 space-y-4">
           <div>
+            <label className="block text-sm font-medium text-foreground">Serial ID (ESP32)</label>
+            <input
+              name="serialId"
+              value={form.serialId ?? ''}
+              onChange={handleChange}
+              placeholder="Ex.: HS-001-A23"
+              className="mt-2 h-13 w-full rounded-2xl border border-foreground/12 bg-white/3 px-5 text-body text-foreground placeholder:text-muted/90 transition-colors focus:border-helio-gold/45 focus:outline-none"
+            />
+          </div>
+
+          <div>
             <label className="block text-sm font-medium text-foreground">Nome</label>
             <input
               name="label"
-              value={form.label}
+              value={form.label ?? ''}
               onChange={handleChange}
               placeholder="Ex.: Helio-Alpha"
               className="mt-2 h-13 w-full rounded-2xl border border-foreground/12 bg-white/3 px-5 text-body text-foreground placeholder:text-muted/90 transition-colors focus:border-helio-gold/45 focus:outline-none"
@@ -80,7 +99,7 @@ export default function PanelModal({ open, onClose, onSubmit }: PanelModalProps)
               <input
                 name="latitude"
                 type="number"
-                value={form.latitude}
+                value={form.latitude ?? ''}
                 onChange={handleChange}
                 placeholder="-23.499528"
                 step="any"
@@ -92,7 +111,7 @@ export default function PanelModal({ open, onClose, onSubmit }: PanelModalProps)
               <input
                 name="longitude"
                 type="number"
-                value={form.longitude}
+                value={form.longitude ?? ''}
                 onChange={handleChange}
                 placeholder="-47.400944"
                 step="any"

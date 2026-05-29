@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from 'react';
 import PanelsCard from './panels/PanelCard';
 import PanelModal, { PanelFormData } from '@/components/ui/PanelModal';
@@ -6,6 +8,7 @@ import type { PanelStatus, TelemetryEntry } from '@/lib/models/userDashboardData
 type PanelFromApi = {
 	id?: string;
 	_id?: string;
+	serialId?: string;
 	label: string;
 	latitude: number;
 	longitude: number;
@@ -18,6 +21,7 @@ type PanelFromApi = {
 
 type Panel = {
 	id: string;
+	serialId?: string;
 	label: string;
 	latitude: number;
 	longitude: number;
@@ -47,6 +51,7 @@ export default function Panels() {
 					(data.dashboard?.panels || []).map(
 						(panel: PanelFromApi): Panel => ({
 							id: panel.id || (panel._id ? panel._id.toString() : Math.random().toString(36)),
+							serialId: panel.serialId ?? undefined,
 							label: panel.label,
 							latitude: panel.latitude,
 							longitude: panel.longitude,
@@ -87,23 +92,40 @@ export default function Panels() {
 						<span className="text-xs uppercase tracking-[0.3em]">Adicionar Placa</span>
 					</button>
 				</div>
-				<PanelModal open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={(data: PanelFormData) => {
-					setPanels((prev) => [
-						...prev,
-						{
-							id: Math.random().toString(36).slice(2, 9),
-							label: data.label,
-							latitude: data.latitude,
-							longitude: data.longitude,
-							status: 'online',
-							lastSyncAt: new Date().toISOString(),
-							currentAngleAzimuth: 0,
-							currentAngleElevation: 0,
-							petalsStatus: 'open',
-						},
-					]);
-					setModalOpen(false);
-				}} />
+				<PanelModal
+					open={modalOpen}
+					onClose={() => setModalOpen(false)}
+					onSubmit={async (data: PanelFormData) => {
+						try {
+							const res = await fetch('/api/dashboard/panels', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify(data),
+							});
+							if (!res.ok) {
+								const txt = await res.text();
+								setError(txt || 'Erro ao criar placa');
+								return;
+							}
+							const created = await res.json();
+							const newPanel: Panel = {
+								id: created.id || created._id || Math.random().toString(36).slice(2, 9),
+								label: created.label,
+								latitude: created.latitude,
+								longitude: created.longitude,
+								status: created.status || 'online',
+								lastSyncAt: created.lastSyncAt || new Date().toISOString(),
+								currentAngleAzimuth: created.currentAngleAzimuth ?? 0,
+								currentAngleElevation: created.currentAngleElevation ?? 0,
+								petalsStatus: created.petalsStatus ?? 'open',
+							};
+							setPanels(prev => [newPanel, ...prev]);
+							setModalOpen(false);
+						} catch (err) {
+							setError(err instanceof Error ? err.message : 'Erro desconhecido');
+						}
+					}}
+				/>
 			</div>
 		</>
 	);
