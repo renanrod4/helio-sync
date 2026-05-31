@@ -5,8 +5,8 @@ const MQTT_USERNAME = process.env.MQTT_USERNAME
 const MQTT_PASSWORD = process.env.MQTT_PASSWORD
 
 const TOPICS = {
-  telemetry: 'helio/panel/+/telemetry',
-  command: 'helio/panel/+/cmd',
+  telemetry: 'heliosync/monitor/dados',
+  command: 'heliosync/monitor/comandos',
 };
 
 let client: mqtt.MqttClient | null = null;
