@@ -3,8 +3,10 @@ import { cookies } from 'next/headers';
 import { connectToDatabase } from '@/lib/db';
 import { UserDashboardDataModel } from '@/lib/models/userDashboardData';
 import { verifyAuthToken, JWT_COOKIE_NAME } from '@/lib/auth';
+import { startMqttService } from '@/lib/mqttService';
 
 export async function GET() {
+  startMqttService();
   await connectToDatabase();
   const cookieStore = await cookies();
   const token = cookieStore.get(JWT_COOKIE_NAME)?.value;

@@ -1,4 +1,6 @@
- Objetivo
+# Planejamento
+
+## Objetivo
 Criar um ecossistema integrado para monitoramento de placas solares com login, pareamento via QR Code, telemetria em tempo real e análise histórica.
 
 ## Requisitos do Produto

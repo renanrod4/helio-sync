@@ -100,7 +100,11 @@ export default function Panels() {
 							const res = await fetch('/api/dashboard/panels', {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify(data),
+								body: JSON.stringify({
+									...data,
+									latitude: Number(data.latitude),
+									longitude: Number(data.longitude),
+								}),
 							});
 							if (!res.ok) {
 								const txt = await res.text();
