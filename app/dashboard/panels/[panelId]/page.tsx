@@ -52,7 +52,16 @@ export default async function PanelDashboardPage({ params }: PanelDashboardPageP
 	const panels: PanelFromApi[] = data.dashboard?.panels || [];
 	const telemetry = data.dashboard?.telemetry || [];
 	const panel = panels.find((item) => (item.id || item._id?.toString()) === panelId);
-	if (!panel) notFound();
+	if (!panel) {
+		return(
+			<div className="flex h-80 items-center justify-center">
+				<div className="text-center">
+					<h2 className="text-lg font-semibold text-rose-800">Placa não encontrada</h2>
+					<p className="mt-2 text-sm text-rose-700">A placa que você está tentando acessar não existe ou foi removida.</p>
+				</div>
+			</div>
+		)
+	}
 
 	const entries = getPanelTelemetry(telemetry, (panel.id || (panel._id?.toString?.() ?? '')));
 	const latestEntry = entries[entries.length - 1];
