@@ -1,8 +1,8 @@
 # Helio Sync
 
-Helio Sync é uma plataforma inteligente voltada para elevar a eficiência da energia solar com um sistema matemático para obter a posição do sol em tempo real
+# Helio Sync
 
-O projeto apresenta uma leitura contemporânea da energia solar: um dispositivo articulado que acompanha o sol com precisão, projetado por um desenho inspirado na natureza, e uma interface de controle completa.
+Helio Sync é uma plataforma mecatrônica inteligente projetada para maximizar a eficiência da captação de energia solar através de um sistema de rastreamento (tracker) em tempo real. O projeto integra um dispositivo embarcado de alta precisão, que utiliza algoritmos matemáticos para acompanhar a trajetória do sol em dois eixos, a uma interface digital completa (Dashboard) para monitoramento de telemetria, análise de eficiência energética e controle remoto do hardware.
 
 ## Sobre o Helio Sync
 
